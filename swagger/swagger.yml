@@ -1,0 +1,559 @@
+openapi: 3.1.0
+info:
+  title: Rein-Challenge
+  version: '1.0'
+  contact:
+    url: 'https://github.com/acend-io/rein-challenge'
+  summary: API Docs for the Rein Challenge API
+  description: 'API Documentation for the Rein, Inc code challenge.'
+servers:
+  - url: 'http://localhost:3000'
+    description: Local
+paths:
+  /drones:
+    get:
+      summary: GET Drones
+      tags:
+        - Drone
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Drone'
+              examples:
+                Example:
+                  value:
+                    - id: 0
+                      name: string
+                      faa_registration_number: string
+                      drone_type_id: 0
+      operationId: get-drones
+      description: Get a list of all Drones
+    post:
+      summary: POST Drones
+      operationId: post-drones
+      description: Create a new Drone
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Drone'
+              examples:
+                Example:
+                  value:
+                    id: 0
+                    name: string
+                    faa_registration_number: string
+                    drone_type_id: 0
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Example:
+                  value:
+                    - attribute: name
+                      full_message: Name can't be blank
+                      type: blank
+      tags:
+        - Drone
+      requestBody:
+        $ref: '#/components/requestBodies/New-Drone'
+  /drone_types:
+    get:
+      summary: GET Drone Types
+      tags:
+        - DroneType
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DroneType'
+              examples:
+                example-1:
+                  value:
+                    - id: 0
+                      manufacturer: DJI
+                      model: Phantom
+                      wing_type: rotor
+      operationId: get-drone_types
+      description: Get a list of all Drone Types
+    post:
+      summary: POST Drone Types
+      operationId: post-drone_types
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DroneType'
+              examples:
+                Example:
+                  value:
+                    id: 0
+                    manufacturer: DJI
+                    model: Phantom
+                    wing_type: rotor
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Example:
+                  value:
+                    - attribute: name
+                      full_message: Name can't be blank
+                      type: blank
+      description: Create a new Drone Type
+      tags:
+        - DroneType
+      requestBody:
+        $ref: '#/components/requestBodies/New-Drone-Type'
+  /pilots:
+    get:
+      summary: GET Pilots
+      tags:
+        - Pilot
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pilot'
+              examples:
+                Example:
+                  value:
+                    - id: 0
+                      name: string
+                      license_type: type107
+      operationId: get-pilots
+      description: Get All Pilots
+    post:
+      summary: ''
+      operationId: post-pilots
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pilot'
+              examples:
+                Example:
+                  value:
+                    id: 0
+                    name: string
+                    license_type: type107
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Example:
+                  value:
+                    - attribute: name
+                      full_message: Name can't be blank
+                      type: blank
+      tags:
+        - Pilot
+      description: Create new Pilot
+      requestBody:
+        $ref: '#/components/requestBodies/New-Pilot'
+  '/drones/#{id}':
+    parameters:
+      - schema:
+          type: integer
+          example: 1
+        name: id
+        in: path
+        required: true
+        description: drone id
+    get:
+      summary: GET Drone
+      tags:
+        - Drone
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Drone'
+              examples:
+                Example:
+                  value:
+                    id: 0
+                    name: string
+                    faa_registration_number: string
+                    drone_type_id: 0
+      operationId: get-drones-#-id
+      description: Get one drone
+  '/drone_types/#{id}':
+    parameters:
+      - schema:
+          type: integer
+          example: 1
+        name: id
+        in: path
+        required: true
+        description: Drone Type ID
+    get:
+      summary: GET Drone Type
+      tags:
+        - DroneType
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DroneType'
+              examples:
+                Example:
+                  value:
+                    id: 0
+                    manufacturer: DJI
+                    model: Phantom
+                    wing_type: rotor
+      operationId: get-drone_types-#-id
+      description: Get a single drone type
+  '/pilots/#{id}':
+    parameters:
+      - schema:
+          type: integer
+          example: 1
+        name: id
+        in: path
+        required: true
+        description: Pilot ID
+    get:
+      summary: GET Pilot
+      tags:
+        - Pilot
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pilot'
+              examples:
+                Example:
+                  value:
+                    id: 0
+                    name: string
+                    license_type: type107
+      operationId: get-pilots-#-id
+      description: Get a single Pilot
+components:
+  schemas:
+    Drone:
+      description: Drone that can be checked out
+      type: object
+      x-examples:
+        example-1:
+          id: 1
+          name: string
+          faa_registration_number: string
+          drone_type_id: 0
+      properties:
+        id:
+          type: number
+          description: ID of the Drone
+          readOnly: true
+        name:
+          type: string
+          minLength: 1
+          description: Human readable Name of the Drone
+          maxLength: 255
+        faa_registration_number:
+          type: string
+          minLength: 1
+          description: FAA Registration Number (Tail Number) of the Drone
+          maxLength: 255
+        drone_type_id:
+          type: number
+          description: Drone Type reference
+      required:
+        - id
+        - name
+        - faa_registration_number
+        - drone_type_id
+      examples:
+        - id: 0
+          name: string
+          faa_registration_number: string
+          drone_type_id: 0
+      x-tags:
+        - Drone
+    Pilot:
+      description: Pilot who can check out and fly drones
+      type: object
+      x-examples:
+        example-1:
+          id: 0
+          license_type: type107
+          name: string
+      properties:
+        id:
+          type: number
+          description: ID of the Pilot
+        name:
+          type: string
+          minLength: 1
+          description: Name of the Pilot
+          maxLength: 255
+        license_type:
+          type: string
+          minLength: 1
+          description: License Type the Pilot holds
+          enum:
+            - type107
+            - type333
+            - government_exemption
+          example: type107
+      required:
+        - id
+        - name
+        - license_type
+      examples:
+        - id: 0
+          name: string
+          license_type: type107
+    DroneType:
+      description: ''
+      type: object
+      x-examples:
+        example-1:
+          id: 0
+          manufacturer: string
+          model: string
+          wing_type: fixed
+      properties:
+        id:
+          type: number
+          readOnly: true
+        manufacturer:
+          type: string
+          minLength: 1
+          description: Manufacturer of a Drone
+          example: DJI
+          maxLength: 255
+        model:
+          type: string
+          minLength: 1
+          description: Model of a Drone
+          example: Phantom
+          maxLength: 255
+        wing_type:
+          type: string
+          minLength: 1
+          description: Type of wings/propulsion a Drone has
+          enum:
+            - fixed
+            - rotor
+          example: fixed
+      required:
+        - id
+        - manufacturer
+        - model
+        - wing_type
+      examples:
+        - id: 0
+          manufacturer: DJI
+          model: Phantom
+          wing_type: rotor
+    New-Drone:
+      description: New Drone
+      type: object
+      x-examples:
+        example-1:
+          name: string
+          faa_registration_number: string
+          drone_type_id: 0
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 255
+          example: Drone 1
+        faa_registration_number:
+          type: string
+          minLength: 1
+          example: FA1234234
+        drone_type_id:
+          type: number
+          example: 1
+      required:
+        - name
+        - faa_registration_number
+        - drone_type_id
+      examples:
+        - name: Drone 1
+          faa_registration_number: FA1234234
+          drone_type_id: 1
+      x-tags:
+        - Drone
+    New-DroneType:
+      description: New Drone Type
+      type: object
+      x-examples:
+        example-1:
+          id: 0
+          manufacturer: DJI
+          model: Phantom
+          wing_type: rotor
+      properties:
+        manufacturer:
+          type: string
+          minLength: 1
+          maxLength: 255
+          example: DJI
+        model:
+          type: string
+          minLength: 1
+          example: Phantom
+          maxLength: 255
+        wing_type:
+          type: string
+          minLength: 1
+          enum:
+            - fixed
+            - rotor
+      required:
+        - manufacturer
+        - model
+        - wing_type
+      examples:
+        - manufacturer: DJI
+          model: Phantom
+          wing_type: rotor
+    New-Pilot:
+      description: ''
+      type: object
+      x-examples:
+        example-1:
+          name: string
+          license_type: type107
+      properties:
+        name:
+          type: string
+          minLength: 1
+          description: Pilot Name
+        license_type:
+          type: string
+          minLength: 1
+          description: License Type Pilot holds
+          enum:
+            - part107
+            - part333
+            - government_exemption
+      required:
+        - name
+        - license_type
+    Error:
+      type: array
+      description: Error when creating resources
+      minItems: 1
+      uniqueItems: true
+      x-examples:
+        example-1:
+          - attribute: name
+            full_message: Name can't be blank
+            type: blank
+          - attribute: faa_registration_number
+            full_message: Faa registration number can't be blank
+            type: blank
+          - attribute: drone_type
+            full_message: Drone type must exist
+            type: blank
+      examples:
+        - - attribute: name
+            full_message: Name can't be blank
+            type: blank
+      items:
+        type: object
+        properties:
+          attribute:
+            type: string
+            minLength: 1
+            description: Attribute that has an error
+            example: name
+            readOnly: true
+          full_message:
+            type: string
+            minLength: 1
+            description: Full Message for the Error
+            example: Name can't be blank
+            readOnly: true
+          type:
+            type: string
+            minLength: 1
+            description: Type of error that was raised
+            example: blank
+            readOnly: true
+        required:
+          - attribute
+          - full_message
+          - type
+        readOnly: true
+  requestBodies:
+    New-Drone-Type:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/New-DroneType'
+          examples:
+            Example:
+              value:
+                manufacturer: DJI
+                model: Phantom
+                wing_type: rotor
+      description: Create a new DroneType
+    New-Drone:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/New-Drone'
+          examples:
+            Example:
+              value:
+                name: Drone 1
+                faa_registration_number: FA1234234
+                drone_type_id: 1
+      description: Create a new Drone
+    New-Pilot:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/New-Pilot'
+          examples:
+            Example:
+              value:
+                name: Mr. Pilot
+                license_type: part107
+      description: Create a new Pilot
+tags:
+  - name: Drone
+  - name: DroneType
+  - name: Pilot

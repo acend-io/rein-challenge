@@ -13,10 +13,18 @@ AllCops:
 
 Metrics/BlockLength:
   Exclude:
-    - spec/*/*_spec.rb
+    - spec/**/*
 
 Rails/FilePath:
   Enabled: false
+
+RSpec/DescribeClass:
+  Exclude:
+    - spec/integration/**/*
+
+RSpec/EmptyExampleGroup:
+  Exclude:
+    - spec/integration/**/*
 
 RSpec/FactoryBot/SyntaxMethods:
   Enabled: false
@@ -26,3 +34,4 @@ Style/Documentation:
 
 Style/HashSyntax:
   EnforcedShorthandSyntax: either
+

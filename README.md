@@ -1,7 +1,7 @@
 # REIN, Inc Technical Challenge
 
 ### What is the challenge?
-This is a small Rails API applicaiton meant to be used for our code challenge assignment. Use this as the starting 
+This is a small Rails API application meant to be used for our code challenge assignment. Use this as the starting 
 point for the code challenge.
 
 ### Stack
@@ -12,7 +12,7 @@ point for the code challenge.
 ## Getting Started
 ```shell
 # Fork the repo to your own github account
-# Clone and setuup the repo
+# Clone and setup the repo
 git clone https://github.com/acend-io/rein-challenge
 cd rein-challenge
 

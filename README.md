@@ -43,6 +43,19 @@ but you are also welcome to use tools such as Postman to test as well. There is 
 
 ## What you need to do
 
+In this coding challenge, we are looking to assess your technical abilities and understand how you implement 
+requirements in code. This is a chance to show off your skills and let us see what you bring to the table -- feel 
+free to get creative!
+
+That said, it's recommended not to spend more than two hours on this project. You can, of course, spend as much time 
+as you want, but we want to be respectful of your time.
+
+Please fork the project to a private repository, then you can begin implementing the new features outlined below. 
+Then, when you feel like you are complete, invite the following people to your private repository: `pjdavis`, 
+`prajwalpinto`, and `zihaow`.
+
+## Requirements
+
 We would like to add the ability for a Pilot to check out a drone on a specific day, and for each check-out to be 
 visible via an API call. 
 
@@ -64,6 +77,7 @@ Accept a GET request to an endpoint you create that returns an array of all the 
 ```json
 [
   {
+    "id": 1,
     "date": "2022-01-01",
     "pilot": {
       "id": 1,
@@ -78,6 +92,7 @@ Accept a GET request to an endpoint you create that returns an array of all the 
     }
   },
   {
+    "id": 2,
     "date": "2022-01-04",
     "pilot": {
       "id": 1,

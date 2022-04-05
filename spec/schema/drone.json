@@ -1,0 +1,35 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "integer",
+      "description": "ID of the Drone",
+      "readOnly": true,
+      "example": 1
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Name of the Drone",
+      "example": "Drone 1"
+    },
+    "faa_registration_number": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Registration Number (Tail Number) of the Drone",
+      "example": "FA8942343"
+    },
+    "drone_type_id": {
+      "type": "number",
+      "description": "Type of Drone",
+      "example": 1
+    }
+  },
+  "required": [
+    "id",
+    "name",
+    "faa_registration_number",
+    "drone_type_id"
+  ]
+}

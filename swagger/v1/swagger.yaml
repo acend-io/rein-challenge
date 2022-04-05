@@ -1,0 +1,311 @@
+---
+openapi: 3.0.1
+info:
+  title: Rein Challenge
+  description: Rein Challenge API Documentation
+  version: v1
+paths:
+  "/drones":
+    get:
+      summary: Get Drones
+      tags:
+      - Drone
+      responses:
+        '200':
+          description: Drone Index
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/drone_collection"
+    post:
+      summary: Create Drone
+      tags:
+      - Drone
+      parameters: []
+      responses:
+        '201':
+          description: Create Drone - Success
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/drone"
+        '400':
+          description: Create Drone - Error
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/errors"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/drone"
+  "/drones/{id}":
+    get:
+      summary: GET Drone
+      tags:
+      - Drone
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: number
+      responses:
+        '200':
+          description: Drone
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/drone"
+        '404':
+          description: Drone - Not Found
+  "/drone_types":
+    get:
+      summary: Get Drone Types
+      tags:
+      - Drone Type
+      responses:
+        '200':
+          description: Drone Type Index
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/drone_type_collection"
+    post:
+      summary: Create Drone Type
+      tags:
+      - Drone Type
+      parameters: []
+      responses:
+        '201':
+          description: Create Drone Type - Success
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/drone_type"
+        '400':
+          description: Create Drone Type - Error
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/errors"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/drone_type"
+  "/drone_types/{id}":
+    get:
+      summary: GET Drone Type
+      tags:
+      - Drone Type
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: number
+      responses:
+        '200':
+          description: Drone Type
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/drone_type"
+        '404':
+          description: Drone Type - Not Found
+  "/pilots":
+    get:
+      summary: Get Pilots
+      tags:
+      - Pilot
+      responses:
+        '200':
+          description: Pilot Index
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/pilot_collection"
+    post:
+      summary: Create Pilot
+      tags:
+      - Pilot
+      parameters: []
+      responses:
+        '201':
+          description: Create Pilot - Success
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/pilot"
+        '400':
+          description: Create Pilot - Error
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/errors"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/pilot"
+  "/pilots/{id}":
+    get:
+      summary: GET Pilot
+      tags:
+      - Pilot
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: number
+      responses:
+        '200':
+          description: Pilot
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/pilot"
+        '404':
+          description: Pilot - Not Found
+servers:
+- url: http://{defaultHost}
+  variables:
+    defaultHost:
+      default: localhost:3000
+components:
+  schemas:
+    drone:
+      type: object
+      additionalProperties: false
+      properties:
+        id:
+          type: integer
+          description: ID of the Drone
+          readOnly: true
+          example: 1
+        name:
+          type: string
+          minLength: 1
+          description: Name of the Drone
+          example: Drone 1
+        faa_registration_number:
+          type: string
+          minLength: 1
+          description: Registration Number (Tail Number) of the Drone
+          example: FA8942343
+        drone_type_id:
+          type: number
+          description: Type of Drone
+          example: 1
+      required:
+      - id
+      - name
+      - faa_registration_number
+      - drone_type_id
+    drone_collection:
+      type: array
+      description: Array of Drones
+      items:
+        type: object
+        "$ref": "#/components/schemas/drone"
+    drone_type:
+      type: object
+      properties:
+        id:
+          type: number
+          description: ID of the Drone
+          readOnly: true
+          example: 1
+        manufacturer:
+          type: string
+          minLength: 1
+          description: Manufacturer of the Drone
+          example: DJI
+        model:
+          type: string
+          minLength: 1
+          description: Model of the Drone
+          example: Phantom 3
+        wing_type:
+          type: string
+          description: Wing Type of the Drone
+          enum:
+          - fixed
+          - rotor
+          example: rotor
+      required:
+      - id
+      - manufacturer
+      - model
+      - wing_type
+    drone_type_collection:
+      type: array
+      description: Array of Drone_types
+      items:
+        type: object
+        "$ref": "#/components/schemas/drone_type"
+    pilot:
+      type: object
+      properties:
+        id:
+          type: number
+          description: ID of the Pilot
+          readOnly: true
+          example: 1
+        license_type:
+          type: string
+          minLength: 1
+          description: Type of license to fly the Pilot holds
+          enum:
+          - type107
+          - type333
+          - government_exemption
+          example: type107
+        name:
+          type: string
+          minLength: 1
+          description: Name of the Pilot
+          example: John Pilot
+      required:
+      - id
+      - name
+      - license_type
+    pilot_collection:
+      type: array
+      description: Array of Pilots
+      items:
+        type: object
+        "$ref": "#/components/schemas/pilot"
+    errors:
+      type: array
+      minItems: 1
+      uniqueItems: true
+      items:
+        type: object
+        properties:
+          attribute:
+            type: string
+            minLength: 1
+            description: Attribute that has an error
+            readOnly: true
+            example: name
+          full_message:
+            type: string
+            minLength: 1
+            description: The full error message for this attribute
+            readOnly: true
+            example: Name can not be blank
+          type:
+            type: string
+            minLength: 1
+            description: Type of error that was raised
+            readOnly: true
+            example: blank
+        required:
+        - attribute
+        - full_message
+        - type
+        readOnly: true

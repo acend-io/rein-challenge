@@ -1,0 +1,39 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "number",
+      "description": "ID of the Drone",
+      "readOnly": true,
+      "example": 1
+    },
+    "manufacturer": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Manufacturer of the Drone",
+      "example": "DJI"
+    },
+    "model": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Model of the Drone",
+      "example": "Phantom 3"
+    },
+    "wing_type": {
+      "type": "string",
+      "description": "Wing Type of the Drone",
+      "enum": [
+        "fixed",
+        "rotor"
+      ],
+      "example": "rotor"
+    }
+  },
+  "required": [
+    "id",
+    "manufacturer",
+    "model",
+    "wing_type"
+  ]
+}

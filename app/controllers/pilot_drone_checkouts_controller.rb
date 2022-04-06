@@ -4,7 +4,7 @@ class PilotDroneCheckoutsController < ApplicationController
   include Checkoutable
 
   def index
-    checkouts = PilotDroneCheckout.all
+    checkouts = PilotDroneCheckout.includes(:pilot, :drone).all
     render json: PilotDroneCheckoutBlueprint.render(checkouts)
   end
 

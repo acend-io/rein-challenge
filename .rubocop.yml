@@ -8,6 +8,7 @@ AllCops:
     - db/migrate/*
     - vender/**/*
     - bin/**/*
+    - vendor/bundler/**/*
   TargetRubyVersion: 3.1.1
   NewCops: enable
 

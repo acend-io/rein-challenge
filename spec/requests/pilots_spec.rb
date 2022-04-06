@@ -72,4 +72,33 @@ RSpec.describe 'Pilots', type: :request do
       end
     end
   end
+
+  describe 'POST /checkout' do
+    let(:pilot) { FactoryBot.create(:pilot) }
+    let(:drone) { FactoryBot.create(:drone) }
+    let(:date) { (DateTime.now - 1.day).to_date }
+    let(:request) { post "/pilots/#{pilot.id}/checkout", params: { date: date, drone_id: drone.id } }
+    let(:response_json) { JSON.parse(response.body) }
+
+    context 'with valid params' do
+      it 'creates checkout' do
+        expect { request }.to change(PilotDroneCheckout, :count).by(1)
+      end
+
+      it 'responds with a created checkout' do
+        request
+        expect(response_json).to include('date' => date.to_s, 'pilot_id' => pilot.id, 'drone_id' => drone.id)
+      end
+    end
+
+    context 'with validation errors' do
+      # rubocop:disable RSpec/AnyInstance
+      it 'returns 400 on validation errors' do
+        allow_any_instance_of(DroneCheckOutService).to receive(:pilot?).and_return false
+        request
+        expect(response.status).to eq 400
+      end
+      # rubocop:enable RSpec/AnyInstance
+    end
+  end
 end

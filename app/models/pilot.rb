@@ -4,6 +4,8 @@ class Pilot < ApplicationRecord
   validates :name, presence: true
   validates :license_type, presence: true
 
+  has_many :pilot_drone_checkouts, dependent: :destroy
+
   enum license_type: {
     type107: 0,
     type333: 1,

@@ -1,14 +1,16 @@
 # frozen_string_literal: true
 
 class PilotsController < ApplicationController
+  include Checkoutable
+  before_action :set_pilot, only: %i[show checkout]
+
   def index
     pilots = Pilot.all
     render json: PilotBlueprint.render(pilots)
   end
 
   def show
-    pilot = Pilot.find(params[:id])
-    render json: PilotBlueprint.render(pilot)
+    render json: PilotBlueprint.render(@pilot)
   end
 
   def create
@@ -20,9 +22,18 @@ class PilotsController < ApplicationController
     end
   end
 
+  def checkout
+    service = DroneCheckOutService.new(pilot_id: @pilot.id, drone_id: params[:drone_id], date: params[:date])
+    render json: PilotDroneCheckoutBlueprint.render(service.call!)
+  end
+
   private
 
   def pilot_params
     params.require(:pilot).permit(:name, :license_type)
+  end
+
+  def set_pilot
+    @pilot = Pilot.find(params[:id])
   end
 end

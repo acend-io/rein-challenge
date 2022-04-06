@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_04_04_182854) do
+ActiveRecord::Schema.define(version: 2022_04_05_154146) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -34,6 +34,17 @@ ActiveRecord::Schema.define(version: 2022_04_04_182854) do
     t.index ["faa_registration_number"], name: "index_drones_on_faa_registration_number", unique: true
   end
 
+  create_table "pilot_drone_checkouts", force: :cascade do |t|
+    t.bigint "pilot_id", null: false
+    t.bigint "drone_id", null: false
+    t.date "date"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["date", "pilot_id", "drone_id"], name: "index_pilot_drone_checkouts_on_date_and_pilot_id_and_drone_id", unique: true
+    t.index ["drone_id"], name: "index_pilot_drone_checkouts_on_drone_id"
+    t.index ["pilot_id"], name: "index_pilot_drone_checkouts_on_pilot_id"
+  end
+
   create_table "pilots", force: :cascade do |t|
     t.string "name", null: false
     t.integer "license_type", null: false
@@ -42,4 +53,6 @@ ActiveRecord::Schema.define(version: 2022_04_04_182854) do
   end
 
   add_foreign_key "drones", "drone_types"
+  add_foreign_key "pilot_drone_checkouts", "drones"
+  add_foreign_key "pilot_drone_checkouts", "pilots"
 end

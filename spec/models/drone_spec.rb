@@ -9,6 +9,7 @@ RSpec.describe Drone, type: :model do
     it { is_expected.to validate_presence_of(:name) }
     it { is_expected.to validate_presence_of(:faa_registration_number) }
     it { is_expected.to validate_uniqueness_of(:faa_registration_number) }
+    it { is_expected.to have_many(:pilot_drone_checkouts) }
   end
 
   describe 'associations' do
